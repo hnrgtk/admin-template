@@ -1,20 +1,11 @@
 import "tailwindcss/tailwind.css";
+import { GlobalStyle } from "../styles/global";
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
+      <GlobalStyle />
       <Component {...pageProps} />
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: Poppins, sans-serif;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
     </>
   );
 }
