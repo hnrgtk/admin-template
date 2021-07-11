@@ -11,7 +11,6 @@ function MyApp({ Component, pageProps }) {
           margin: 0;
           font-family: Poppins, sans-serif;
         }
-
         * {
           box-sizing: border-box;
         }
