@@ -4,7 +4,13 @@ import { Logo } from "./Logo";
 
 export function Drawer() {
   return (
-    <aside className="flex flex-col">
+    <aside
+      className={`
+        flex flex-col
+        bg-gray-200 text-gray-700
+        dark:bg-gray-900 
+        `}
+    >
       <div
         className={`
         flex flex-col items-center justify-center
@@ -25,7 +31,11 @@ export function Drawer() {
       <ul>
         <DrawerItem
           onClick={() => console.log("logout")}
-          className="text-red-600 hover:bg-red-400 hover:text-white"
+          className={`
+            text-red-600 dark:text-red-400 
+            hover:bg-red-400 hover:text-white
+            dark:hover:text-white
+          `}
           text="Sair"
           icon={LogoutIcon}
         />
