@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { useThemeMode } from "../../hooks/useThemeMode";
+import { useThemeMode } from "../hooks/useThemeMode";
 import { Content } from "./Content";
 import { Drawer } from "./Drawer";
 import { Header } from "./Header";

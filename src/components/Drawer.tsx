@@ -1,4 +1,9 @@
-import { HomeIcon, LogoutIcon, NotificationIcon, SettingsIcon } from "../icons";
+import {
+  HomeIcon,
+  LogoutIcon,
+  NotificationIcon,
+  SettingsIcon,
+} from "../assets/icons";
 import { DrawerItem } from "./DrawerItem";
 import { Logo } from "./Logo";
 

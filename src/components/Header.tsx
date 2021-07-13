@@ -1,4 +1,4 @@
-import { useThemeMode } from "../../hooks/useThemeMode";
+import { useThemeMode } from "../hooks/useThemeMode";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { Title } from "./Title";
 

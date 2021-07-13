@@ -1,5 +1,5 @@
-import { ThemeModeProps } from "../../contexts/ThemeModeContext";
-import { MoonIcon, SunIcon } from "../icons";
+import { ThemeModeProps } from "../contexts/ThemeModeContext";
+import { MoonIcon, SunIcon } from "../assets/icons";
 
 type ThemeSwitcherProps = ThemeModeProps;
 

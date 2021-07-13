@@ -1,4 +1,4 @@
-import { Layout } from "../components/template/Layout";
+import { Layout } from "../components/Layout";
 
 export default function Settings() {
   return (
