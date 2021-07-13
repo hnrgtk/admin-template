@@ -1,3 +1,5 @@
+import { useThemeMode } from "../../hooks/useThemeMode";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 import { Title } from "./Title";
 
 type HeaderProps = {
@@ -6,9 +8,13 @@ type HeaderProps = {
 };
 
 export function Header(props: HeaderProps) {
+  const { theme, changeTheme } = useThemeMode();
   return (
-    <div>
+    <div className="flex">
       <Title {...{ ...props }} />
+      <div className="flex flex-grow justify-end">
+        <ThemeSwitcher {...{ theme, changeTheme }} />
+      </div>
     </div>
   );
 }

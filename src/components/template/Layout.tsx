@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { useThemeMode } from "../../hooks/useThemeMode";
 import { Content } from "./Content";
 import { Drawer } from "./Drawer";
 import { Header } from "./Header";
@@ -10,8 +11,10 @@ type LayoutProps = {
 };
 
 export function Layout(props: LayoutProps) {
+  const { theme } = useThemeMode();
+
   return (
-    <div className="dark flex h-screen w-screen">
+    <div className={`${theme} flex h-screen w-screen`}>
       <Drawer />
       <div
         className={`
