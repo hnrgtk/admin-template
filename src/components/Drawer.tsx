@@ -4,10 +4,12 @@ import {
   NotificationIcon,
   SettingsIcon,
 } from "../assets/icons";
+import { useAuth } from "../hooks/useAuth";
 import { DrawerItem } from "./DrawerItem";
 import { Logo } from "./Logo";
 
 export function Drawer() {
+  const { logout } = useAuth();
   return (
     <aside
       className={`
@@ -35,7 +37,7 @@ export function Drawer() {
       </ul>
       <ul>
         <DrawerItem
-          onClick={() => console.log("logout")}
+          onClick={logout}
           className={`
             text-red-600 dark:text-red-400 
             hover:bg-red-400 hover:text-white

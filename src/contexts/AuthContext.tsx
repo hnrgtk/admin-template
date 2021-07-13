@@ -7,6 +7,7 @@ import User from "../types/user";
 type AuthContextProps = {
   user?: User;
   loginGoogle?: () => Promise<void>;
+  logout?: () => Promise<void>;
 };
 
 export const AuthContext = createContext<AuthContextProps>({});
@@ -58,23 +59,43 @@ export function AuthProvider(props) {
   }
 
   async function loginGoogle() {
-    const response = await firebase
-      .auth()
-      .signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    try {
+      const response = await firebase
+        .auth()
+        .signInWithPopup(new firebase.auth.GoogleAuthProvider());
 
-    handleSession(response.user);
-    push("/");
+      handleSession(response.user);
+      push("/");
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function logout() {
+    try {
+      await firebase.auth().signOut();
+      await handleSession(null);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
-    const unsubscribe = firebase.auth().onIdTokenChanged(handleSession);
-    return () => unsubscribe();
+    if (Cookies.get("auth-admin")) {
+      const unsubscribe = firebase.auth().onIdTokenChanged(handleSession);
+      return () => unsubscribe();
+    }
   }, []);
   return (
     <AuthContext.Provider
       value={{
         user,
         loginGoogle,
+        logout,
       }}
     >
       {props.children}
