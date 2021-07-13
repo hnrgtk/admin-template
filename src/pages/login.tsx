@@ -5,6 +5,7 @@ import { FormInput } from "../components/FormInput";
 import Image from "next/image";
 import googleIcon from "../../public/google.svg";
 import { useAuth } from "../hooks/useAuth";
+import { useRouter } from "next/dist/client/router";
 
 type LoginFormType = {
   email: string;
@@ -13,13 +14,22 @@ type LoginFormType = {
 
 export default function Login() {
   const { control, handleSubmit } = useForm<LoginFormType>();
-  const { user, loginGoogle } = useAuth();
+  const { create, login, loginGoogle } = useAuth();
   const [authState, setAuthState] = useState<"signIn" | "signUp">("signIn");
 
   const isSignIn = authState === "signIn";
 
-  function submit(values: LoginFormType) {
-    console.log(values);
+  async function submit(values: LoginFormType) {
+    try {
+      if (isSignIn) {
+        await login(values.email, values.password);
+      } else {
+        await create(values.email, values.password);
+        setAuthState("signIn");
+      }
+    } catch (err) {
+      console.log(err?.message);
+    }
   }
 
   return (
@@ -33,7 +43,7 @@ export default function Login() {
       </aside>
       <div className=" m-10 w-full md:w-1/2 lg:w-1/3">
         <h1 className="text-3xl font-bold mb-5">
-          {isSignIn ? "Entre com a sua conta" : "Cadastre-se na Plataforma"}
+          {isSignIn ? "Entre com a sua conta" : "Cadastre-se"}
         </h1>
         <FormInput label="E-mail" name="email" control={control} />
         <FormInput

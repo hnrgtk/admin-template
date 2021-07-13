@@ -8,6 +8,8 @@ type AuthContextProps = {
   user?: User;
   loading?: boolean;
   loginGoogle?: () => Promise<void>;
+  login?: (email: string, password: string) => Promise<void>;
+  create?: (email: string, password: string) => Promise<void>;
   logout?: () => Promise<void>;
 };
 
@@ -65,8 +67,37 @@ export function AuthProvider(props) {
         .auth()
         .signInWithPopup(new firebase.auth.GoogleAuthProvider());
 
-      handleSession(response.user);
+      await handleSession(response.user);
       push("/");
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function login(email: string, password: string) {
+    try {
+      const response = await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password);
+
+      await handleSession(response.user);
+      push("/");
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function create(email: string, password: string) {
+    try {
+      const response = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+
+      await handleSession(response.user);
     } catch (err) {
       console.log(err);
     } finally {
@@ -100,6 +131,8 @@ export function AuthProvider(props) {
         user,
         loading,
         loginGoogle,
+        login,
+        create,
         logout,
       }}
     >
