@@ -3,6 +3,7 @@ import { useThemeMode } from "../hooks/useThemeMode";
 import { Content } from "./Content";
 import { Drawer } from "./Drawer";
 import { Header } from "./Header";
+import { PrivateRoute } from "./PrivateRoute";
 
 type LayoutProps = {
   title: string;
@@ -14,17 +15,19 @@ export function Layout(props: LayoutProps) {
   const { theme } = useThemeMode();
 
   return (
-    <div className={`${theme} flex h-screen w-screen`}>
-      <Drawer />
-      <div
-        className={`
+    <PrivateRoute>
+      <div className={`${theme} flex h-screen w-screen`}>
+        <Drawer />
+        <div
+          className={`
           flex flex-col w-full p-7 
           bg-gray-300 dark:bg-gray-800
-        `}
-      >
-        <Header {...{ ...props }} />
-        <Content>{props.children}</Content>
+          `}
+        >
+          <Header {...{ ...props }} />
+          <Content>{props.children}</Content>
+        </div>
       </div>
-    </div>
+    </PrivateRoute>
   );
 }

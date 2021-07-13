@@ -6,6 +6,7 @@ import User from "../types/user";
 
 type AuthContextProps = {
   user?: User;
+  loading?: boolean;
   loginGoogle?: () => Promise<void>;
   logout?: () => Promise<void>;
 };
@@ -77,6 +78,7 @@ export function AuthProvider(props) {
     try {
       await firebase.auth().signOut();
       await handleSession(null);
+      push("/login");
     } catch (err) {
       console.log(err);
     } finally {
@@ -88,12 +90,15 @@ export function AuthProvider(props) {
     if (Cookies.get("auth-admin")) {
       const unsubscribe = firebase.auth().onIdTokenChanged(handleSession);
       return () => unsubscribe();
+    } else {
+      setLoading(false);
     }
   }, []);
   return (
     <AuthContext.Provider
       value={{
         user,
+        loading,
         loginGoogle,
         logout,
       }}
