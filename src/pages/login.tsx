@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FormInput } from "../components/FormInput";
 import Image from "next/image";
-import googleIcon from "../assets/icons/google.svg";
+import googleIcon from "../../public/google.svg";
+import { useAuth } from "../hooks/useAuth";
 
 type LoginFormType = {
   email: string;
@@ -12,6 +13,7 @@ type LoginFormType = {
 
 export default function Login() {
   const { control, handleSubmit } = useForm<LoginFormType>();
+  const { user, loginGoogle } = useAuth();
   const [authState, setAuthState] = useState<"signIn" | "signUp">("signIn");
 
   const isSignIn = authState === "signIn";
@@ -51,7 +53,7 @@ export default function Login() {
         </button>
         <hr className="my-6 border-gray-300 w-full" />
         <button
-          onClick={handleSubmit(submit)}
+          onClick={loginGoogle}
           className={`
             flex items-center justify-center
             w-full bg-white border border-black

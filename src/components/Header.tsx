@@ -1,4 +1,5 @@
 import { useThemeMode } from "../hooks/useThemeMode";
+import { Avatar } from "./Avatar";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { Title } from "./Title";
 
@@ -12,8 +13,9 @@ export function Header(props: HeaderProps) {
   return (
     <div className="flex">
       <Title {...{ ...props }} />
-      <div className="flex flex-grow justify-end">
+      <div className="flex flex-grow justify-end items-center">
         <ThemeSwitcher {...{ theme, changeTheme }} />
+        <Avatar />
       </div>
     </div>
   );
