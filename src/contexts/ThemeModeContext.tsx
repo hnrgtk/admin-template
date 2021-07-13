@@ -1,19 +1,23 @@
-import { createContext, ReactNode, useState } from "react";
-
-type ThemeType = "dark" | "";
+import { createContext, useEffect, useState } from "react";
 
 export type ThemeModeProps = {
-  theme?: ThemeType;
+  theme?: string;
   changeTheme?: () => void;
 };
 
 export const ThemeModeContext = createContext<ThemeModeProps>({});
 
 export function ThemeModeProvider(props) {
-  const [theme, setTheme] = useState<ThemeType>("dark");
+  const [theme, setTheme] = useState<string>("dark");
+
+  useEffect(() => {
+    const storageTheme = localStorage.getItem("theme");
+    setTheme(storageTheme);
+  }, []);
 
   function changeTheme() {
-    setTheme((prev: ThemeType) => (prev === "" ? "dark" : ""));
+    setTheme((prev: string) => (prev === "" ? "dark" : ""));
+    localStorage.setItem("theme", theme === "" ? "dark" : "");
   }
 
   return (
