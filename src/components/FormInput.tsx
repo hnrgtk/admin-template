@@ -1,3 +1,4 @@
+import { InputHTMLAttributes } from "react";
 import { Control, useController } from "react-hook-form";
 
 type FormInputProps = {
@@ -5,7 +6,7 @@ type FormInputProps = {
   name: string;
   control: Control<any>;
   type?: "text" | "email" | "password";
-};
+} & InputHTMLAttributes<HTMLInputElement>;
 
 export function FormInput(props: FormInputProps) {
   const {
@@ -20,12 +21,14 @@ export function FormInput(props: FormInputProps) {
       <input
         type={props.type || "text"}
         {...inputProps}
+        {...props}
         ref={ref}
         className={`
           px-4 py-3 rounded-lg
-        bg-gray-200 mt-2 border 
-        focus:border-blue-500 focus:bg-white
+          bg-gray-200 mt-2 border 
+          focus:border-blue-500 focus:bg-white
           focus:outline-none
+          placeholder-gray-500 
         `}
       />
     </div>
