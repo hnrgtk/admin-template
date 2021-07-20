@@ -5,7 +5,6 @@ import { FormInput } from "../components/FormInput";
 import Image from "next/image";
 import googleIcon from "../../public/google.svg";
 import { useAuth } from "../hooks/useAuth";
-import { useRouter } from "next/dist/client/router";
 
 type LoginFormType = {
   email: string;
@@ -14,17 +13,19 @@ type LoginFormType = {
 
 export default function Login() {
   const { control, handleSubmit } = useForm<LoginFormType>();
-  const { create, login, loginGoogle } = useAuth();
+  const { createUser, signInWithEmailAndPassword, signInWithGoogle, loading } = useAuth();
   const [authState, setAuthState] = useState<"signIn" | "signUp">("signIn");
 
   const isSignIn = authState === "signIn";
 
+  const buttonLabel = isSignIn ? loading ? "Entrando..." : "Entrar" : loading ? "Aguarde..." : "Cadastrar";
+
   async function submit(values: LoginFormType) {
     try {
       if (isSignIn) {
-        await login(values.email, values.password);
+        await signInWithEmailAndPassword(values.email, values.password);
       } else {
-        await create(values.email, values.password);
+        await createUser(values.email, values.password);
         setAuthState("signIn");
       }
     } catch (err) {
@@ -45,7 +46,7 @@ export default function Login() {
         <h1 className="text-3xl font-bold mb-5">
           {isSignIn ? "Entre com a sua conta" : "Cadastre-se"}
         </h1>
-        <FormInput label="E-mail" name="email" control={control} />
+        <FormInput label="E-mail" name="email" control={control} placeholder="Ex: maria@email.com" />
         <FormInput
           label="Senha"
           name="password"
@@ -55,15 +56,15 @@ export default function Login() {
         <button
           onClick={handleSubmit(submit)}
           className={`
-          w-full bg-indigo-500 hover:bg-indigo-400
-        text-white rounded-lg px-3 py-2 mt-6
+             w-full bg-indigo-500 hover:bg-indigo-400
+             text-white rounded-lg px-3 py-2 mt-6
         `}
         >
-          {isSignIn ? "Entrar" : "Cadastrar"}
+          {buttonLabel}
         </button>
         <hr className="my-6 border-gray-300 w-full" />
         <button
-          onClick={loginGoogle}
+          onClick={signInWithGoogle}
           className={`
             flex items-center justify-center
             w-full bg-white border border-black

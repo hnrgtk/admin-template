@@ -7,15 +7,15 @@ import User from "../types/user";
 type AuthContextProps = {
   user?: User;
   loading?: boolean;
-  loginGoogle?: () => Promise<void>;
-  login?: (email: string, password: string) => Promise<void>;
-  create?: (email: string, password: string) => Promise<void>;
+  signInWithGoogle?: () => Promise<void>;
+  signInWithEmailAndPassword?: (email: string, password: string) => Promise<void>;
+  createUser?: (email: string, password: string) => Promise<void>;
   logout?: () => Promise<void>;
 };
 
 export const AuthContext = createContext<AuthContextProps>({});
 
-async function getUser(user: firebase.User) {
+async function getTokenAndUser(user: firebase.User) {
   const token = await user.getIdToken();
   return {
     uid: user.uid,
@@ -39,13 +39,13 @@ function handleCookie(logged: boolean) {
 
 export function AuthProvider(props) {
   const { push } = useRouter();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User>(null);
 
   async function handleSession(firebaseUser: firebase.User) {
     try {
       if (firebaseUser?.email) {
-        const user = await getUser(firebaseUser);
+        const user = await getTokenAndUser(firebaseUser);
         setUser(user);
         handleCookie(true);
         return user.email;
@@ -56,28 +56,27 @@ export function AuthProvider(props) {
       }
     } catch (err) {
       console.log(err);
-    } finally {
-      setLoading(false);
     }
   }
 
-  async function loginGoogle() {
+  async function signInWithGoogle() {
     try {
+      const provider = new firebase.auth.GoogleAuthProvider()
+
       const response = await firebase
         .auth()
-        .signInWithPopup(new firebase.auth.GoogleAuthProvider());
+        .signInWithPopup(provider);
 
       await handleSession(response.user);
       push("/");
     } catch (err) {
       console.log(err);
-    } finally {
-      setLoading(false);
     }
   }
 
-  async function login(email: string, password: string) {
+  async function signInWithEmailAndPassword(email: string, password: string) {
     try {
+      setLoading(true);
       const response = await firebase
         .auth()
         .signInWithEmailAndPassword(email, password);
@@ -91,8 +90,9 @@ export function AuthProvider(props) {
     }
   }
 
-  async function create(email: string, password: string) {
+  async function createUser(email: string, password: string) {
     try {
+      setLoading(true);
       const response = await firebase
         .auth()
         .createUserWithEmailAndPassword(email, password);
@@ -112,27 +112,27 @@ export function AuthProvider(props) {
       push("/login");
     } catch (err) {
       console.log(err);
-    } finally {
-      setLoading(false);
     }
   }
 
   useEffect(() => {
     if (Cookies.get("auth-admin")) {
-      const unsubscribe = firebase.auth().onIdTokenChanged(handleSession);
+      const unsubscribe = firebase.auth().onAuthStateChanged(handleSession);
       return () => unsubscribe();
     } else {
       setLoading(false);
     }
   }, []);
+
+
   return (
     <AuthContext.Provider
       value={{
         user,
         loading,
-        loginGoogle,
-        login,
-        create,
+        signInWithGoogle,
+        signInWithEmailAndPassword,
+        createUser,
         logout,
       }}
     >
