@@ -6,22 +6,25 @@ type FormInputProps = {
   name: string;
   control: Control<any>;
   type?: "text" | "email" | "password";
+  errorMessage?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export function FormInput(props: FormInputProps) {
+  const { errorMessage, ...rest } = props;
   const {
     field: { ref, ...inputProps },
   } = useController({
-    ...props,
+    ...rest,
     defaultValue: "",
   });
+
   return (
     <div className="flex flex-col mt-4">
       <label>{props.label}</label>
       <input
         type={props.type || "text"}
         {...inputProps}
-        {...props}
+        {...rest}
         ref={ref}
         className={`
           px-4 py-3 rounded-lg
@@ -31,6 +34,7 @@ export function FormInput(props: FormInputProps) {
           placeholder-gray-500 
         `}
       />
+      {props.errorMessage && <span className="mt-1 text-red-500 text-sm">{props.errorMessage}</span>}
     </div>
   );
 }

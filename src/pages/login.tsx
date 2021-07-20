@@ -5,19 +5,30 @@ import { FormInput } from "../components/FormInput";
 import Image from "next/image";
 import googleIcon from "../../public/google.svg";
 import { useAuth } from "../hooks/useAuth";
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 
 type LoginFormType = {
   email: string;
   password: string;
 };
 
+const schema = z.object({
+  email: z.string().email({ message: 'E-mail inválido.' }),
+  password: z.string().min(6, { message: 'A senha deve ter 6 ou mais caracteres.' })
+})
+
 export default function Login() {
-  const { control, handleSubmit } = useForm<LoginFormType>();
+  const { control, handleSubmit, formState: { errors } } = useForm<LoginFormType>({
+    resolver: zodResolver(schema)
+  });
+
   const { createUser, signInWithEmailAndPassword, signInWithGoogle, loading } = useAuth();
   const [authState, setAuthState] = useState<"signIn" | "signUp">("signIn");
 
   const isSignIn = authState === "signIn";
 
+  // mudar depois isso, ta feão. 
   const buttonLabel = isSignIn ? loading ? "Entrando..." : "Entrar" : loading ? "Aguarde..." : "Cadastrar";
 
   async function submit(values: LoginFormType) {
@@ -46,12 +57,18 @@ export default function Login() {
         <h1 className="text-3xl font-bold mb-5">
           {isSignIn ? "Entre com a sua conta" : "Cadastre-se"}
         </h1>
-        <FormInput label="E-mail" name="email" control={control} placeholder="Ex: maria@email.com" />
+        <FormInput
+          label="E-mail"
+          name="email"
+          control={control}
+          placeholder="Ex: maria@email.com"
+          errorMessage={errors?.email?.message} />
         <FormInput
           label="Senha"
           name="password"
           control={control}
           type="password"
+          errorMessage={errors?.password?.message}
         />
         <button
           onClick={handleSubmit(submit)}

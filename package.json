@@ -9,13 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.6.1",
     "firebase": "^8.7.1",
     "js-cookie": "^2.2.1",
     "next": "11.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.11.0",
-    "react-hot-toast": "^2.0.0"
+    "react-hot-toast": "^2.0.0",
+    "zod": "^3.5.1"
   },
   "devDependencies": {
     "@types/react": "^17.0.14",
