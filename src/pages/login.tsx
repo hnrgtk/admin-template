@@ -61,13 +61,14 @@ export default function Login() {
           label="E-mail"
           name="email"
           control={control}
-          placeholder="Ex: maria@email.com"
+          placeholder="Digite seu email"
           errorMessage={errors?.email?.message} />
         <FormInput
           label="Senha"
           name="password"
           control={control}
           type="password"
+          placeholder="Digite sua senha"
           errorMessage={errors?.password?.message}
         />
         <button
