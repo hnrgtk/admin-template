@@ -118,6 +118,7 @@ export function AuthProvider(props) {
   useEffect(() => {
     if (Cookies.get("auth-admin")) {
       const unsubscribe = firebase.auth().onAuthStateChanged(handleSession);
+      setLoading(false);
       return () => unsubscribe();
     } else {
       setLoading(false);
