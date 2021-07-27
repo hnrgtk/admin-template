@@ -3,6 +3,7 @@ import { createContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import firebase from "../services/firebase";
 import User from "../types/user";
+import toast from "react-hot-toast";
 
 type AuthContextProps = {
 	user?: User;
@@ -84,7 +85,15 @@ export function AuthProvider(props) {
 			await handleSession(response.user);
 			push("/");
 		} catch (err) {
-			console.log(err);
+			if (err.code === 'auth/invalid-email') {
+				toast.error('Email inválido! Por favor verifique se o email esta correto.');
+			}
+			if (err.code === 'auth/user-not-found') {
+				toast.error('Usuário não encontrado! Por favor verifique se o email esta correto.');
+			}
+			if (err.code === 'auth/wrong-password') {
+				toast.error('Senha inválida! Verifique sua senha e tente novamente.');
+			}
 		} finally {
 			setLoading(false);
 		}
