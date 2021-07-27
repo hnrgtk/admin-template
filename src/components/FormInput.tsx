@@ -20,7 +20,7 @@ export function FormInput(props: FormInputProps) {
 
   return (
     <div className="flex flex-col mt-4">
-      <label>{props.label}</label>
+      <label className="xs:text-sm md:text-base">{props.label}</label>
       <input
         type={props.type || "text"}
         {...inputProps}
