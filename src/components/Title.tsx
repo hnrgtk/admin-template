@@ -8,7 +8,8 @@ export function Title(props: TitleProps) {
     <div>
       <h1
         className={`
-        font-black text-3xl text-gray-900
+        font-black md:text-3xl text-gray-900
+				xs:text-base
         dark:text-gray-100
       `}
       >
@@ -16,8 +17,9 @@ export function Title(props: TitleProps) {
       </h1>
       <h2
         className={`
-        font-light text-sm text-gray-600
+        	font-light md:text-sm text-gray-600
         dark:text-gray-300
+					xs:text-xs
         `}
       >
         {props.subtitle}

@@ -16,7 +16,7 @@ export function Drawer() {
         flex flex-col
         bg-gray-200 text-gray-700
         dark:bg-gray-900 
-        `}
+      `}
     >
       <div
         className={`
@@ -29,8 +29,8 @@ export function Drawer() {
       <ul className="flex-grow">
         <DrawerItem url="/" text="Início" icon={HomeIcon} />
         <DrawerItem
-          url="/notificacoes"
-          text="Notificações"
+          url="/avisos"
+          text="Avisos"
           icon={NotificationIcon}
         />
         <DrawerItem url="/ajustes" text="Ajustes" icon={SettingsIcon} />
