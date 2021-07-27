@@ -106,9 +106,12 @@ export function AuthProvider(props) {
 				.auth()
 				.createUserWithEmailAndPassword(email, password);
 
-			await handleSession(response.user);
+			// await handleSession(response.user);
+			toast.success('Conta criada com sucesso!')
 		} catch (err) {
-			console.log(err);
+			if(err.code === 'auth/email-already-in-use') {
+				toast.error('Este e-mail já possui um cadastro.')
+			}
 		} finally {
 			setLoading(false);
 		}
