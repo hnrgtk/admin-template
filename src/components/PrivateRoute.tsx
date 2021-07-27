@@ -5,46 +5,43 @@ import loadingGif from "../../public/loading.gif";
 import { useAuth } from "../hooks/useAuth";
 
 export function PrivateRoute(props) {
-  const { loading, user } = useAuth();
-  const { push } = useRouter();
+	const { loading, user } = useAuth();
+	const { push } = useRouter();
 
-  function renderContent() {
-    return (
-      <>
-        <Head>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+	function renderContent() {
+		return (
+			<>
+				<Head>
+					<script
+						dangerouslySetInnerHTML={{
+							__html: `
                 if(!document.cookie?.includes("auth-admin")) {
                   window.location.href = "/login"
                 }
               `,
-            }}
-          ></script>
-        </Head>
-        {props.children}
-      </>
-    );
-  }
+						}}
+					></script>
+				</Head>
+				{props.children}
+			</>
+		);
+	}
 
-  function renderLoading() {
-    return (
-      <div
-        className={`
+	function renderLoading() {
+		return (
+			<div
+				className={`
         flex justify-center items-center h-screen
       `}
-      >
-        <Image src={loadingGif} alt="Carregando" />
-      </div>
-    );
-  }
+			>
+				<Image src={loadingGif} alt="Carregando" />
+			</div>
+		);
+	}
 
-  if (!loading && user?.email) {
-    return renderContent();
-  } else if (loading) {
-    return renderLoading();
-  } else {
-    push("/login");
-    return null;
-  }
+	if (!loading && user?.email) {
+		return renderContent();
+	} else {
+		return renderLoading();
+	}
 }
