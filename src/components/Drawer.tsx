@@ -5,6 +5,7 @@ import {
   SettingsIcon,
 } from "../assets/icons";
 import { useAuth } from "../hooks/useAuth";
+import { routes } from "../utils/routes";
 import { DrawerItem } from "./DrawerItem";
 import { Logo } from "./Logo";
 
@@ -27,13 +28,9 @@ export function Drawer() {
         <Logo />
       </div>
       <ul className="flex-grow">
-        <DrawerItem url="/" text="Início" icon={HomeIcon} />
-        <DrawerItem
-          url="/avisos"
-          text="Avisos"
-          icon={NotificationIcon}
-        />
-        <DrawerItem url="/ajustes" text="Ajustes" icon={SettingsIcon} />
+        {routes.map((r) => (
+          <DrawerItem key={r.text} {...r} />
+        ))}
       </ul>
       <ul>
         <DrawerItem
