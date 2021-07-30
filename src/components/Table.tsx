@@ -32,8 +32,8 @@ export function Table({ headers, data }: TableProps) {
                 key={d.id}
                 className={`${idx % 2 === 0 ? "bg-gray-400" : "bg-gray-300"}`}
               >
-                {Object.entries(d).map(([, value]) => (
-                  <td className="text-left p-3">
+                {Object.entries(d).map(([, value], idx) => (
+                  <td key={idx} className="text-left p-3">
                     {value}
                   </td>
                 ))}
