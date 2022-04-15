@@ -29,7 +29,7 @@ export function Table({ headers, data }: TableProps) {
           {data.map((d, idx) => {
             return (
               <tr
-                key={d.id}
+                key={d.email}
                 className={`${idx % 2 === 0 ? "bg-gray-400" : "bg-gray-300"}`}
               >
                 {Object.entries(d).map(([, value], idx) => (

@@ -1,3 +1,4 @@
+import "@stripe/stripe-js";
 import "tailwindcss/tailwind.css";
 import { GlobalStyle } from "../styles/global";
 import { AllProviders } from "../contexts";
