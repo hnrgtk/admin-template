@@ -20,6 +20,7 @@
     "zod": "^3.5.1"
   },
   "devDependencies": {
+    "@types/firebase": "^3.2.1",
     "@types/react": "^17.0.14",
     "autoprefixer": "^10.2.6",
     "eslint": "7.30.0",

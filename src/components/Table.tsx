@@ -21,7 +21,7 @@ export function Table({ headers, data }: TableProps) {
         <thead className="text-gray-100">
           <tr>
             {headers.map((header) => (
-              <th key={header}className="text-left p-3">{header}</th>
+              <th key={header} className="text-left p-3">{header}</th>
             ))}
           </tr>
         </thead>

@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FormInput } from "../components/FormInput";
@@ -29,7 +28,11 @@ export default function Login() {
 	const isSignIn = authState === "signIn";
 
 	// mudar depois isso, ta feão. 
-	const buttonLabel = isSignIn ? loading ? "Entrando..." : "Entrar" : loading ? "Aguarde..." : "Cadastrar";
+	const buttonLabel =
+		isSignIn ?
+			loading ?
+				"Entrando..." : "Entrar" :
+			loading ? "Aguarde..." : "Cadastrar";
 
 	async function submit(values: LoginFormType) {
 		try {
@@ -110,7 +113,7 @@ export default function Login() {
 					</p>
 				) : (
 					<p className="mt-4">
-					 	Já possui uma conta?
+						Já possui uma conta?
 						<a
 							onClick={() => setAuthState("signIn")}
 							className={`

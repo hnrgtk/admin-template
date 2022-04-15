@@ -1,12 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useRouter } from "next/dist/client/router";
 import loadingGif from "../../public/loading.gif";
 import { useAuth } from "../hooks/useAuth";
 
 export function PrivateRoute(props) {
 	const { loading, user } = useAuth();
-	const { push } = useRouter();
 
 	function renderContent() {
 		return (

@@ -1,7 +1,7 @@
 import { useRouter } from "next/dist/client/router";
 import { createContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import firebase from "../services/firebase";
+import { firestore, firebase } from "../services/firebase";
 import User from "../types/user";
 import toast from "react-hot-toast";
 
@@ -49,15 +49,39 @@ export function AuthProvider(props) {
 				const user = await getTokenAndUser(firebaseUser);
 				setUser(user);
 				handleCookie(true);
-				return user.email;
 			} else {
 				setUser(null);
 				handleCookie(false);
-				return false;
 			}
 		} catch (err) {
 			console.log(err);
 		}
+	}
+
+	async function addLoggedUserToFirestoreCollection(user: any, formName: string) {
+		if (!user) return;
+
+		const displayName = formName || user?.displayName;
+
+		const userRef = firestore.doc(`users/${user.uid}`);
+
+		const snapshot = await userRef.get();
+
+		if (!snapshot.exists) {
+			const { email } = user;
+
+			try {
+				userRef.set({
+					displayName,
+					email,
+					subscription: new Date()
+				})
+
+			} catch (err) {
+				console.log('Error in creating user', err)
+			}
+		}
+
 	}
 
 	async function signInWithGoogle() {
@@ -69,6 +93,8 @@ export function AuthProvider(props) {
 				.signInWithPopup(provider);
 
 			await handleSession(response.user);
+			await addLoggedUserToFirestoreCollection(response.user, '')
+
 			push("/");
 		} catch (err) {
 			console.log(err);
@@ -106,10 +132,11 @@ export function AuthProvider(props) {
 				.auth()
 				.createUserWithEmailAndPassword(email, password);
 
-			// await handleSession(response.user);
+			await handleSession(response.user);
+
 			toast.success('Conta criada com sucesso!')
 		} catch (err) {
-			if(err.code === 'auth/email-already-in-use') {
+			if (err.code === 'auth/email-already-in-use') {
 				toast.error('Este e-mail já possui um cadastro.')
 			}
 		} finally {
