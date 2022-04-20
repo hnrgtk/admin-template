@@ -154,16 +154,16 @@ export function AuthProvider(props) {
 		}
 	}
 
-	useEffect(() => {
-		if (Cookies.get("auth-admin")) {
-			const unsubscribe = firebase.auth().onAuthStateChanged(handleSession);
-			setLoading(false);
-			return () => unsubscribe();
-		} else {
-			push('/login');
-			setLoading(false);
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (Cookies.get("auth-admin")) {
+	// 		const unsubscribe = firebase.auth().onAuthStateChanged(handleSession);
+	// 		setLoading(false);
+	// 		return () => unsubscribe();
+	// 	} else {
+	// 		push('/login');
+	// 		setLoading(false);
+	// 	}
+	// }, []);
 
 
 	return (

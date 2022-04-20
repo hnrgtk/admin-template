@@ -9,7 +9,7 @@ type RouteType = {
 
 export const routes: RouteType = [
   {
-    url: "/",
+    url: "/admin",
     text: "Início",
     icon: HomeIcon,
   },

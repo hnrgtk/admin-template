@@ -34,7 +34,7 @@ export function FormInput(props: FormInputProps) {
           placeholder-gray-500 
         `}
       />
-      {props.errorMessage && <span className="mt-1 text-red-500 text-sm">{props.errorMessage}</span>}
+      {props.errorMessage && <span className="mt-1 text-sm text-red-500">{props.errorMessage}</span>}
     </div>
   );
 }

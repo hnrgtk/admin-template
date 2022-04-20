@@ -1,39 +1,37 @@
-import { useEffect, useState } from "react";
-import { Layout } from "../components/Layout";
-import { Table } from "../components/Table";
-import { firestore } from "../services/firebase";
+import { loadStripe } from "@stripe/stripe-js";
 
-export default function Home() {
-  const [adminUsers, setAdminUsers] = useState([]);
+let stripePromise;
 
-  const userRef = firestore.collection('users');
+function getStripe() {
+  if (!stripePromise) {
+    stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY)
+  }
+  return stripePromise;
+}
 
-  async function getAllAdminUsers() {
-    try {
-      await userRef.onSnapshot((snapshot) => {
-        snapshot.forEach((doc) => {
-          const { displayName, email, subscription } = doc.data();
-          setAdminUsers(prevState => [...prevState, {
-            name: displayName,
-            email,
-            subscription: subscription && subscription?.toDate().toDateString()
-          }])
-        }
-        )
-      })
-    } catch (err) {
-      console.log("ERROR:", err)
-    }
+export default function Checkout() {
+  async function redirectCheckout() {
+    const stripe = await getStripe();
+
+    const { error } = await stripe.redirectToCheckout({
+      lineItems: [{
+        price: "price_1KotebEw3mpQJbPYbsJIrLD0",
+        quantity: 1,
+      }],
+      mode: "payment",
+      successUrl: `${window.location.origin}/login`,
+      cancelUrl: `${window.location.origin}/ajustes`,
+    });
+
+    console.log('stripe_error:', error);
   }
 
-  useEffect(() => {
-    getAllAdminUsers();
-  }, []);
-
   return (
-    <Layout title="Página Inicial" subtitle="Template Admin!">
-      <h3>Content!!</h3>
-      <Table data={adminUsers} headers={['Nome', 'E-mail', 'Data de inscrição']} />
-    </Layout>
+    <>
+      <h1>Checkout</h1>
+      <button onClick={redirectCheckout}>
+        Checkout
+      </button>
+    </>
   );
 }

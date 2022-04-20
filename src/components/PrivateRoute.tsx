@@ -10,7 +10,7 @@ export function PrivateRoute(props) {
 		return (
 			<>
 				<Head>
-					<script
+					{/* <script
 						dangerouslySetInnerHTML={{
 							__html: `
                 if(!document.cookie?.includes("auth-admin")) {
@@ -18,7 +18,7 @@ export function PrivateRoute(props) {
                 }
               `,
 						}}
-					></script>
+					></script> */}
 				</Head>
 				{props.children}
 			</>
@@ -37,9 +37,9 @@ export function PrivateRoute(props) {
 		);
 	}
 
-	if (!loading && user?.email) {
-		return renderContent();
-	} else {
-		return renderLoading();
-	}
+	// if (!loading && user?.email) {
+	return renderContent();
+	// } else {
+	// 	return renderLoading();
+	// }
 }

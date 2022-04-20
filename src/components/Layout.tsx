@@ -44,8 +44,8 @@ export function Layout(props: LayoutProps) {
 				>
 					<Header {...{ ...props }} />
 					<Content>{props.children}</Content>
-				</ div>
-					<BottomMenu />
+				</div>
+				<BottomMenu />
 			</div>
 		</PrivateRoute>
 	);

@@ -1,9 +1,4 @@
-import {
-  HomeIcon,
-  LogoutIcon,
-  NotificationIcon,
-  SettingsIcon,
-} from "../assets/icons";
+import { LogoutIcon } from "../assets/icons";
 import { useAuth } from "../hooks/useAuth";
 import { routes } from "../utils/routes";
 import { DrawerItem } from "./DrawerItem";
